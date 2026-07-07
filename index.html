@@ -211,6 +211,10 @@
   .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
   .flags{font-size:17px;letter-spacing:3px}
 
+  /* ---- film ---- */
+  .filmframe{display:block;width:100%;max-width:960px;height:auto;margin:0 auto;border-radius:20px;
+    border:1px solid var(--line-2);box-shadow:0 40px 90px -30px rgba(0,0,0,.8);background:var(--ink-2)}
+
   /* reveal */
   .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
   .rv.in{opacity:1;transform:none}
@@ -266,6 +270,20 @@
     <span class="langpill" id="hiLang">EN · हिंदी +5</span>
   </div>
 </div></header>
+
+<!-- FILM -->
+<section id="film" style="padding-top:28px">
+  <div class="wrap">
+    <div class="rv" style="text-align:center;margin-bottom:36px">
+      <div class="kicker">The film</div>
+      <h2 class="h2" style="margin:0 auto">Every market, in 40 seconds.</h2>
+    </div>
+    <video class="filmframe rv" controls playsinline preload="metadata" poster="assets/video-poster.jpg" width="1920" height="1080">
+      <source src="assets/smb-os-demo.mp4" type="video/mp4" />
+      Your browser doesn't support embedded video — <a href="assets/smb-os-demo.mp4">download the film</a>.
+    </video>
+  </div>
+</section>
 
 <!-- MARKET SWITCHER -->
 <section id="markets">
