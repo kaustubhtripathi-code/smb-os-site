@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SMB OS — Invoicing that speaks your market's tax language</title>
+<meta name="description" content="One invoice tool that's natively compliant and payable in every market you work in. GST/VAT/1099, UPI/M-Pesa/Stripe, six languages, offline-first." />
+<!-- Set this to your real domain before launch (also update SITE in markets/build.mjs) -->
+<link rel="canonical" href="https://kaustubhtripathi-code.github.io/smb-os-site/" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://kaustubhtripathi-code.github.io/smb-os-site/" />
+<meta property="og:title" content="SMB OS — Invoicing that speaks your market's tax language" />
+<meta property="og:description" content="Compliant & payable in every market — GST/VAT/1099, UPI/M-Pesa/Stripe, six languages, offline-first." />
+<meta property="og:image" content="https://kaustubhtripathi-code.github.io/smb-os-site/assets/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="SMB OS — Invoicing that speaks your market's tax language" />
+<meta name="twitter:description" content="Compliant & payable in every market. GST · VAT · 1099 · UPI · M-Pesa · Stripe." />
+<meta name="twitter:image" content="https://kaustubhtripathi-code.github.io/smb-os-site/assets/og-image.png" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C5CE7' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='7' width='20' height='14' rx='2'/><path d='M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2'/><path d='M2 12h20'/></svg>" />
+<!-- Analytics (privacy-friendly, no cookies): uncomment + set your domain
+<script defer data-domain="smbos.app" src="https://plausible.io/js/script.js"></script> -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#0B0B12; --ink-2:#12121C; --ink-3:#191926;
+    --paper:#F4EFE6; --paper-2:#E9E1D2;
+    --fg:#ECE9E1; --fg-dim:#A6A2B0; --fg-faint:#6E6B7A;
+    --saffron:#FF6A2B; --emerald:#12B981; --azure:#3D7BFF; --indigo:#6C5CE7;
+    --line:rgba(236,233,225,.10); --line-2:rgba(236,233,225,.18);
+    --accent:var(--saffron);
+    --display:'Space Grotesk',sans-serif; --body:'Sora',sans-serif; --mono:'Space Mono',monospace;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--ink); color:var(--fg); font-family:var(--body);
+    font-weight:300; line-height:1.6; -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  /* film-grain + faint grid over the ink */
+  body::before{
+    content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.5;
+    background-image:
+      linear-gradient(var(--line) 1px,transparent 1px),
+      linear-gradient(90deg,var(--line) 1px,transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 75%);
+    mask-image:radial-gradient(ellipse 90% 60% at 50% 0%,#000 30%,transparent 75%);
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;position:relative;z-index:1}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.02;letter-spacing:-.02em}
+  .mono{font-family:var(--mono)}
+  .accent{color:var(--accent)}
+
+  /* ---- nav ---- */
+  nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(11,11,18,.62);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--display);font-weight:600;font-size:19px;letter-spacing:-.01em}
+  .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--indigo),#4338CA);
+    display:grid;place-items:center;box-shadow:0 6px 22px rgba(108,92,231,.45)}
+  .mark svg{width:17px;height:17px}
+  .navlinks{display:flex;gap:30px;font-size:14px;color:var(--fg-dim)}
+  .navlinks a:hover{color:var(--fg)}
+  .btn{font-family:var(--display);font-weight:500;font-size:14px;padding:11px 18px;border-radius:11px;
+    display:inline-flex;align-items:center;gap:8px;transition:.22s ease;cursor:pointer;border:1px solid transparent}
+  .btn-p{background:var(--fg);color:var(--ink)}
+  .btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(236,233,225,.16)}
+  .btn-g{border-color:var(--line-2);color:var(--fg)}
+  .btn-g:hover{background:rgba(236,233,225,.06);border-color:var(--fg-faint)}
+  @media(max-width:760px){.navlinks{display:none}}
+
+  /* ---- hero ---- */
+  .hero{padding:88px 0 40px;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;font-family:var(--mono);font-size:12px;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--fg-dim);
+    border:1px solid var(--line-2);padding:7px 13px;border-radius:100px;margin-bottom:26px}
+  .dot{width:7px;height:7px;border-radius:50%;background:var(--saffron);box-shadow:0 0 12px var(--saffron)}
+  h1.headline{font-size:clamp(42px,5.6vw,72px);font-weight:700}
+  h1.headline .flip{color:var(--accent);transition:color .5s ease}
+  .lede{font-size:19px;color:var(--fg-dim);max-width:520px;margin:26px 0 34px;line-height:1.55}
+  .cta-row{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+  .btn-lg{padding:15px 24px;font-size:15px;border-radius:13px}
+  .trust{margin-top:26px;font-size:13px;color:var(--fg-faint);display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+  .trust b{color:var(--fg-dim);font-weight:500}
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;gap:44px}.hero{padding:56px 0 20px}}
+
+  /* ---- invoice mock ---- */
+  .invoice{background:var(--paper);color:#1A1622;border-radius:20px;padding:26px 26px 22px;
+    box-shadow:0 40px 90px -30px rgba(0,0,0,.7), 0 0 0 1px rgba(0,0,0,.04);
+    transform:rotate(1.1deg);transition:transform .4s ease;position:relative;overflow:hidden}
+  .invoice:hover{transform:rotate(0deg) translateY(-4px)}
+  .invoice::after{content:"";position:absolute;left:0;right:0;top:0;height:5px;background:var(--accent);transition:background .5s ease}
+  .inv-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+  .inv-title{font-family:var(--display);font-weight:600;font-size:17px;color:#141019}
+  .inv-sub{font-family:var(--mono);font-size:11px;color:#7A7486;margin-top:3px;transition:color .3s}
+  .chip{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;padding:5px 10px;border-radius:8px;
+    background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent);transition:.4s}
+  .inv-rows{border-top:1px dashed #cbc3b4;border-bottom:1px dashed #cbc3b4;padding:12px 0;margin-bottom:14px}
+  .inv-row{display:flex;justify-content:space-between;font-size:13px;color:#4b4552;padding:4px 0;font-family:var(--body)}
+  .inv-row .m{font-family:var(--mono);font-size:12.5px;color:#141019}
+  .inv-total{display:flex;justify-content:space-between;align-items:baseline}
+  .inv-total .lbl{font-family:var(--display);font-weight:600;font-size:15px;color:#141019}
+  .inv-total .amt{font-family:var(--display);font-weight:700;font-size:26px;color:var(--accent);transition:color .4s}
+  .inv-pay{display:flex;align-items:center;gap:14px;margin-top:16px;padding-top:16px;border-top:1px solid #e4dccd}
+  .qr{width:74px;height:74px;flex:none;display:grid;place-items:center}
+  .qr img{width:100%;height:100%;object-fit:contain}
+  .pay-t{font-family:var(--display);font-weight:600;font-size:13px;color:#141019}
+  .pay-s{font-size:11.5px;color:#7A7486;margin-top:2px}
+  .langpill{position:absolute;right:16px;bottom:16px;font-family:var(--mono);font-size:10px;color:#7A7486;
+    border:1px solid #ddd4c4;border-radius:100px;padding:4px 9px;background:#fff}
+
+  /* ---- section scaffolding ---- */
+  section{padding:96px 0;position:relative}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--fg-faint);margin-bottom:16px}
+  .h2{font-size:clamp(30px,4vw,46px);font-weight:600;max-width:16ch}
+  .sec-lede{color:var(--fg-dim);font-size:17px;max-width:52ch;margin-top:18px}
+
+  /* ---- market switcher ---- */
+  .switch-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:36px}
+  .tabs{display:flex;gap:8px;background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:6px}
+  .tab{font-family:var(--display);font-weight:500;font-size:14px;padding:10px 16px;border-radius:9px;color:var(--fg-dim);
+    cursor:pointer;transition:.2s;display:flex;align-items:center;gap:8px;border:none;background:none}
+  .tab.on{background:var(--ink-3);color:var(--fg)}
+  .tab.on .fl{transform:scale(1.15)}
+  .switch-body{display:grid;grid-template-columns:1.2fr 1fr;gap:24px;align-items:stretch}
+  .facts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .fact{background:var(--ink-2);border:1px solid var(--line);border-radius:15px;padding:20px}
+  .fact .l{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-faint)}
+  .fact .v{font-family:var(--display);font-weight:600;font-size:20px;margin-top:9px;color:var(--fg)}
+  .fact .v .accent{transition:color .4s}
+  .switch-invoice{display:grid;place-items:center;background:
+    radial-gradient(120% 120% at 100% 0%,color-mix(in srgb,var(--accent) 12%,transparent),transparent 60%),var(--ink-2);
+    border:1px solid var(--line);border-radius:18px;padding:26px}
+  @media(max-width:900px){.switch-body{grid-template-columns:1fr}.facts{order:2}}
+
+  /* ---- pillars (bento) ---- */
+  .bento{display:grid;grid-template-columns:repeat(6,1fr);gap:18px;margin-top:48px}
+  .card{background:linear-gradient(180deg,var(--ink-2),var(--ink));border:1px solid var(--line);
+    border-radius:18px;padding:28px;position:relative;overflow:hidden;transition:.3s}
+  .card:hover{border-color:var(--line-2);transform:translateY(-4px)}
+  .card.big{grid-column:span 3}
+  .card.sm{grid-column:span 3}
+  .card .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;margin-bottom:18px;font-size:20px}
+  .card h3{font-size:22px;margin-bottom:10px}
+  .card p{color:var(--fg-dim);font-size:15px}
+  .taglist{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--fg-dim);border:1px solid var(--line-2);border-radius:100px;padding:5px 11px}
+  @media(max-width:820px){.bento{grid-template-columns:1fr}.card.big,.card.sm{grid-column:span 1}}
+
+  /* ---- proof / compliance receipts ---- */
+  .receipts{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+  .receipt{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:20px;font-family:var(--mono)}
+  .receipt .rl{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--fg-faint)}
+  .receipt .rv{font-size:14px;color:var(--fg);margin-top:12px;word-break:break-all;line-height:1.5}
+  .receipt .ok{color:var(--emerald);font-size:12px;margin-top:12px;display:flex;align-items:center;gap:6px}
+  @media(max-width:820px){.receipts{grid-template-columns:1fr 1fr}}
+
+  /* ---- stats ---- */
+  .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:20px}
+  .stat{border-top:2px solid var(--line-2);padding-top:22px}
+  .stat .n{font-family:var(--display);font-weight:700;font-size:clamp(38px,5vw,58px);line-height:1}
+  .stat .n .u{font-size:.5em;color:var(--fg-dim);font-weight:500}
+  .stat .d{color:var(--fg-dim);font-size:14.5px;margin-top:12px;max-width:30ch}
+  .stat:nth-child(1) .n{color:var(--saffron)} .stat:nth-child(2) .n{color:var(--emerald)} .stat:nth-child(3) .n{color:var(--azure)}
+  @media(max-width:820px){.stats{grid-template-columns:1fr}}
+
+  /* ---- steps ---- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  .step{position:relative;padding-top:20px;border-top:1px solid var(--line)}
+  .step .num{font-family:var(--mono);font-size:13px;color:var(--accent)}
+  .step h3{font-size:19px;margin:14px 0 8px}
+  .step p{color:var(--fg-dim);font-size:14.5px}
+  @media(max-width:820px){.steps{grid-template-columns:1fr}}
+
+  /* ---- pricing ---- */
+  .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .price{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:28px;display:flex;flex-direction:column}
+  .price.feat{border-color:var(--indigo);box-shadow:0 0 0 1px var(--indigo),0 30px 70px -40px var(--indigo)}
+  .price .pn{font-family:var(--display);font-weight:600;font-size:16px;color:var(--fg-dim)}
+  .price .pp{font-family:var(--display);font-weight:700;font-size:34px;margin:12px 0 2px}
+  .price .pp small{font-size:15px;color:var(--fg-faint);font-weight:400}
+  .price ul{list-style:none;margin:20px 0 24px;display:flex;flex-direction:column;gap:11px}
+  .price li{font-size:14px;color:var(--fg-dim);display:flex;gap:10px;align-items:flex-start}
+  .price li::before{content:"→";color:var(--indigo);font-family:var(--mono)}
+  .price .pf{margin-top:auto}
+  .badge{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--indigo);
+    border:1px solid var(--indigo);border-radius:100px;padding:4px 10px;align-self:flex-start;margin-bottom:14px}
+  @media(max-width:820px){.prices{grid-template-columns:1fr}}
+
+  /* ---- cta ---- */
+  .cta{background:
+     radial-gradient(90% 120% at 0% 0%,rgba(255,106,43,.16),transparent 55%),
+     radial-gradient(90% 120% at 100% 100%,rgba(61,123,255,.16),transparent 55%),
+     var(--ink-2);
+    border:1px solid var(--line-2);border-radius:28px;padding:64px 44px;text-align:center;position:relative;overflow:hidden}
+  .cta h2{font-size:clamp(30px,4.4vw,50px);max-width:18ch;margin:0 auto}
+  .cta p{color:var(--fg-dim);margin:20px auto 30px;max-width:46ch;font-size:17px}
+  .form{display:flex;gap:10px;max-width:440px;margin:0 auto;flex-wrap:wrap;justify-content:center}
+  .form input{flex:1;min-width:220px;background:var(--ink);border:1px solid var(--line-2);color:var(--fg);
+    border-radius:13px;padding:15px 16px;font-family:var(--body);font-size:15px;outline:none}
+  .form input:focus{border-color:var(--indigo)}
+  .form .ok{color:var(--emerald);font-family:var(--mono);font-size:13px;width:100%;margin-top:6px;min-height:16px}
+
+  footer{border-top:1px solid var(--line);padding:44px 0;color:var(--fg-faint);font-size:13.5px}
+  .foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center}
+  .flags{font-size:17px;letter-spacing:3px}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1)}
+  .rv.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}.invoice{transform:none}}
+</style>
+</head>
+<body>
+
+<nav><div class="wrap nav">
+  <div class="brand">
+    <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg></span>
+    SMB OS
+  </div>
+  <div class="navlinks">
+    <a href="#markets">Markets</a>
+    <a href="#features">Features</a>
+    <a href="#proof">Compliance</a>
+    <a href="#pricing">Pricing</a>
+  </div>
+  <a href="#get" class="btn btn-p">Get early access</a>
+</div></nav>
+
+<header class="hero"><div class="wrap hero-grid">
+  <div>
+    <span class="eyebrow"><span class="dot"></span> Invoicing · borderless · compliant</span>
+    <h1 class="headline">Invoicing that speaks your&nbsp;market's <span class="flip" id="flipWord">tax language</span>.</h1>
+    <p class="lede">One tool that's natively tax-compliant and payable in every market you work in — GST, VAT and 1099; UPI, M-Pesa and Stripe; six languages; offline-first.</p>
+    <div class="cta-row">
+      <a href="#get" class="btn btn-p btn-lg">Get early access →</a>
+      <a href="#markets" class="btn btn-g btn-lg">See it per market</a>
+    </div>
+    <div class="trust">
+      <span><b>5 markets</b> 🇮🇳 🇰🇪 🇳🇬 🇿🇦 🇺🇸</span>
+      <span><b>6 languages</b></span>
+      <span><b>Offline-first</b></span>
+    </div>
+  </div>
+  <div class="invoice" id="heroInvoice">
+    <div class="inv-top">
+      <div><div class="inv-title">GST Tax Invoice</div><div class="inv-sub" id="hiSub">India · INR · CGST + SGST</div></div>
+      <span class="chip" id="hiChip">e-Invoice · IRN</span>
+    </div>
+    <div class="inv-rows">
+      <div class="inv-row"><span>Design & build — website</span><span class="m">₹10,000.00</span></div>
+      <div class="inv-row"><span>CGST @ 9%</span><span class="m">₹900.00</span></div>
+      <div class="inv-row"><span>SGST @ 9%</span><span class="m">₹900.00</span></div>
+    </div>
+    <div class="inv-total"><span class="lbl">Total</span><span class="amt" id="hiTotal">₹11,800.00</span></div>
+    <div class="inv-pay">
+      <div class="qr"><img src="assets/hero-upi-qr.png" alt="Scan to pay via UPI" /></div>
+      <div><div class="pay-t" id="hiPayT">Scan to pay via UPI</div><div class="pay-s" id="hiPayS">PhonePe · GPay · Paytm · any UPI app</div></div>
+    </div>
+    <span class="langpill" id="hiLang">EN · हिंदी +5</span>
+  </div>
+</div></header>
+
+<!-- MARKET SWITCHER -->
+<section id="markets">
+  <div class="wrap">
+    <div class="switch-head">
+      <div class="rv">
+        <div class="kicker">One tool · every market's rules</div>
+        <h2 class="h2">Switch the market. Everything follows.</h2>
+        <p class="sec-lede">Tax logic, currency & number format, payment rail, compliance artifact and language — all reconfigure per market. Not a currency dropdown bolted onto a US product.</p>
+      </div>
+      <div class="tabs" role="tablist">
+        <button class="tab on" data-m="in"><span class="fl">🇮🇳</span> India</button>
+        <button class="tab" data-m="ke"><span class="fl">🇰🇪</span> Kenya</button>
+        <button class="tab" data-m="us"><span class="fl">🇺🇸</span> USA</button>
+      </div>
+    </div>
+    <div class="switch-body rv">
+      <div class="facts">
+        <div class="fact"><div class="l">Tax system</div><div class="v" id="fTax">GST — <span class="accent">CGST + SGST / IGST</span></div></div>
+        <div class="fact"><div class="l">Currency & format</div><div class="v" id="fCur">₹ INR · <span class="accent">lakh / crore</span></div></div>
+        <div class="fact"><div class="l">Get paid via</div><div class="v" id="fPay">UPI QR · <span class="accent">Razorpay</span></div></div>
+        <div class="fact"><div class="l">Compliance artifact</div><div class="v" id="fArt"><span class="accent">e-Invoice IRN</span> + QR</div></div>
+        <div class="fact"><div class="l">Language</div><div class="v" id="fLang">English + <span class="accent">हिंदी</span></div></div>
+        <div class="fact"><div class="l">Fiscal year</div><div class="v" id="fFy">Apr <span class="accent">–</span> Mar</div></div>
+      </div>
+      <div class="switch-invoice">
+        <div class="invoice" style="transform:none;width:100%;max-width:340px">
+          <div class="inv-top">
+            <div><div class="inv-title" id="sTitle">GST Tax Invoice</div><div class="inv-sub" id="sSub">India · INR</div></div>
+            <span class="chip" id="sChip">IRN</span>
+          </div>
+          <div class="inv-rows">
+            <div class="inv-row"><span>Consulting</span><span class="m" id="sBase">₹10,000</span></div>
+            <div class="inv-row"><span id="sTaxL">CGST + SGST @ 18%</span><span class="m" id="sTaxV">₹1,800</span></div>
+          </div>
+          <div class="inv-total"><span class="lbl">Total</span><span class="amt" id="sTotal">₹11,800</span></div>
+          <div class="inv-pay">
+            <div class="qr" id="sQR" style="font-size:30px">📲</div>
+            <div><div class="pay-t" id="sPayT">Scan to pay</div><div class="pay-s" id="sPayS">UPI · any app</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="wrap">
+    <div class="rv"><div class="kicker">Why it wins</div><h2 class="h2">Compliant, payable, local — by default.</h2></div>
+    <div class="bento">
+      <div class="card big rv">
+        <div class="ic" style="background:rgba(255,106,43,.14)">🛡️</div>
+        <h3>Compliant, not scary</h3>
+        <p>GST/VAT/1099 done right, automatically — CGST/SGST/IGST auto-split, GSTIN validated with the official checksum, e-Invoice IRN, VAT per country, 1099-NEC threshold tracking and SE-tax. No penalties, no accountant hand-holding.</p>
+        <div class="taglist"><span class="tag">GSTIN checksum</span><span class="tag">IRN + signed QR</span><span class="tag">HSN/SAC</span><span class="tag">1099-NEC</span><span class="tag">TDS</span></div>
+      </div>
+      <div class="card sm rv">
+        <div class="ic" style="background:rgba(18,185,129,.14)">⚡</div>
+        <h3>Get paid the local way</h3>
+        <p>The payment artifact is <em>on the invoice</em>: a scannable UPI QR, M-Pesa Paybill, Flutterwave / Paystack, Stripe — and a one-click pay link generated right from the invoice. Your client pays the way they already pay.</p>
+        <div class="taglist"><span class="tag">UPI QR</span><span class="tag">Pay links</span><span class="tag">M-Pesa</span><span class="tag">Stripe</span></div>
+      </div>
+      <div class="card sm rv">
+        <div class="ic" style="background:rgba(61,123,255,.14)">🌐</div>
+        <h3>Truly local</h3>
+        <p>₹1,00,000, not ₹100,000. Six Indian languages, per-market date format & fiscal year, and offline-first where the network isn't.</p>
+        <div class="taglist"><span class="tag">6 languages</span><span class="tag">lakh/crore</span><span class="tag">offline</span></div>
+      </div>
+      <div class="card big rv">
+        <div class="ic" style="background:rgba(108,92,231,.16)">📄</div>
+        <h3>Actually usable</h3>
+        <p>One-click, email-safe PDF and print-clean invoices. Draft auto-save, saved-invoice history with draft → sent → paid status and overdue flags — synced across your devices, offline-first. Sequential numbering, discounts and amount-in-words in every currency. It just works.</p>
+        <div class="taglist"><span class="tag">1-click PDF</span><span class="tag">status + overdue</span><span class="tag">cross-device sync</span><span class="tag">amount in words</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROOF -->
+<section id="proof">
+  <div class="wrap">
+    <div class="rv"><div class="kicker">Real compliance artifacts</div><h2 class="h2">Not a mockup. The actual output.</h2>
+      <p class="sec-lede">These are the documents tax authorities want — generated, validated and put on the invoice.</p></div>
+    <div class="receipts">
+      <div class="receipt rv"><div class="rl">GSTIN — validated</div><div class="rv" style="color:var(--fg)">27AAPFU0939F1ZV</div><div class="ok">✓ checksum verified</div></div>
+      <div class="receipt rv"><div class="rl">e-Invoice IRN</div><div class="rv" style="color:var(--fg)">383147ddeff2…982e9c56</div><div class="ok">✓ signed QR generated</div></div>
+      <div class="receipt rv"><div class="rl">1099-NEC threshold</div><div class="rv" style="color:var(--fg)">$600.00 / contractor</div><div class="ok">✓ auto-flagged</div></div>
+      <div class="receipt rv"><div class="rl">VAT — Kenya eTIMS</div><div class="rv" style="color:var(--fg)">KRA PIN · 16%</div><div class="ok">✓ format-checked</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section>
+  <div class="wrap">
+    <div class="rv"><div class="kicker">The market</div><h2 class="h2">Everyone invoices. Almost no one does it locally.</h2></div>
+    <div class="stats">
+      <div class="stat rv"><div class="n"><span data-count="63">0</span>M<span class="u">+ MSMEs</span></div><div class="d">Indian micro-businesses — 72% call GST compliance their #1 pain.</div></div>
+      <div class="stat rv"><div class="n"><span data-count="280">0</span>M<span class="u"> accounts</span></div><div class="d">Active mobile-money accounts across Africa. Invoices must be payable by phone.</div></div>
+      <div class="stat rv"><div class="n"><span data-count="86">0</span>M<span class="u"> freelancers</span></div><div class="d">US freelancers juggling 1099s and, on average, 25+ SaaS tools.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW -->
+<section>
+  <div class="wrap">
+    <div class="rv"><div class="kicker">How it works</div><h2 class="h2">From zero to a compliant, payable invoice in minutes.</h2></div>
+    <div class="steps">
+      <div class="step rv"><div class="num">01</div><h3>Pick your market</h3><p>Choose India, Kenya, Nigeria, South Africa or the US. Taxes, currency, payments and language configure themselves.</p></div>
+      <div class="step rv"><div class="num">02</div><h3>Build the invoice</h3><p>Add line items — GST/VAT/sales-tax computes correctly, discounts and amount-in-words included. IDs are validated as you type.</p></div>
+      <div class="step rv"><div class="num">03</div><h3>Send & get paid</h3><p>Generate the IRN, download an email-safe PDF, and let clients scan the QR to pay. Track it draft → sent → paid.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="wrap">
+    <div class="rv"><div class="kicker">Pricing</div><h2 class="h2">Priced local. Cheaper than one filing penalty.</h2>
+      <p class="sec-lede">Local price points, freemium. The free tier is genuinely useful — and unlimited.</p></div>
+    <div class="prices">
+      <div class="price rv"><div class="pn">Free</div><div class="pp">₹0 <small>/ forever</small></div>
+        <ul><li>Unlimited invoices, one market</li><li>PDF + payment QR</li><li>Draft auto-save</li><li>Validation & tax math</li></ul>
+        <div class="pf"><a href="#get" class="btn btn-g" style="width:100%;justify-content:center">Start free</a></div></div>
+      <div class="price feat rv"><span class="badge">Most popular</span><div class="pn">Pro</div><div class="pp">₹299 <small>/ mo · $9 · KSh 500</small></div>
+        <ul><li>All markets, switch freely</li><li>e-Invoice / IRN generation</li><li>Saved history + status & overdue</li><li>Remove "Made with SMB OS"</li><li>Priority support</li></ul>
+        <div class="pf"><a href="#get" class="btn btn-p" style="width:100%;justify-content:center">Get early access</a></div></div>
+      <div class="price rv"><div class="pn">Business <small style="color:var(--fg-faint)">· soon</small></div><div class="pp">₹799 <small>/ mo · $24</small></div>
+        <ul><li>Everything in Pro</li><li>Clients CRM + reuse</li><li>Payment-API auto-reconcile</li><li>Team seats</li></ul>
+        <div class="pf"><a href="#get" class="btn btn-g" style="width:100%;justify-content:center">Join waitlist</a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="get"><div class="wrap">
+  <div class="cta rv">
+    <h2>Stop fitting your market to a US tool.</h2>
+    <p>Be first to invoice the way your market actually works. Early access opens market-by-market, India first.</p>
+    <form class="form" onsubmit="return joinWaitlist(event)">
+      <input type="email" id="wlEmail" placeholder="you@business.com" required />
+      <button class="btn btn-p" type="submit">Get early access</button>
+      <div class="ok" id="wlOk"></div>
+    </form>
+  </div>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="foot" style="margin-bottom:22px">
+    <span style="color:var(--fg-dim);font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase">Invoice generators by market</span>
+    <div style="display:flex;gap:18px;flex-wrap:wrap">
+      <a href="markets/india.html" style="color:var(--fg-faint)">🇮🇳 GST invoice (India)</a>
+      <a href="markets/kenya.html" style="color:var(--fg-faint)">🇰🇪 eTIMS VAT (Kenya)</a>
+      <a href="markets/nigeria.html" style="color:var(--fg-faint)">🇳🇬 VAT (Nigeria)</a>
+      <a href="markets/south-africa.html" style="color:var(--fg-faint)">🇿🇦 SARS (South Africa)</a>
+      <a href="markets/usa.html" style="color:var(--fg-faint)">🇺🇸 1099 (USA)</a>
+    </div>
+  </div>
+  <div class="foot" style="border-top:1px solid var(--line);padding-top:22px">
+    <div class="brand" style="font-size:16px"><span class="mark" style="width:24px;height:24px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg></span> SMB OS</div>
+    <div class="flags">🇮🇳 🇰🇪 🇳🇬 🇿🇦 🇺🇸</div>
+    <div>© 2026 SMB OS · Invoicing that speaks your market's tax language.</div>
+  </div>
+</div></footer>
+
+<script>
+  // ---- market switcher ----
+  const M = {
+    in:{acc:'#FF6A2B',fl:'🇮🇳',hiSub:'India · INR · CGST + SGST',hiChip:'e-Invoice · IRN',hiTotal:'₹11,800.00',hiPayT:'Scan to pay via UPI',hiPayS:'PhonePe · GPay · Paytm · any UPI app',hiLang:'EN · हिंदी +5',
+        fTax:'GST — <span class="accent">CGST + SGST / IGST</span>',fCur:'₹ INR · <span class="accent">lakh / crore</span>',fPay:'UPI QR · <span class="accent">Razorpay</span>',fArt:'<span class="accent">e-Invoice IRN</span> + QR',fLang:'English + <span class="accent">हिंदी</span>',fFy:'Apr <span class="accent">–</span> Mar',
+        sTitle:'GST Tax Invoice',sSub:'India · INR',sChip:'IRN',sBase:'₹10,000',sTaxL:'CGST + SGST @ 18%',sTaxV:'₹1,800',sTotal:'₹11,800',sQR:'📲',sPayT:'Scan to pay',sPayS:'UPI · any app'},
+    ke:{acc:'#12B981',fl:'🇰🇪',hiSub:'Kenya · KES · VAT 16% · eTIMS',hiChip:'KRA PIN',hiTotal:'KSh 11,600.00',hiPayT:'Pay via M-Pesa',hiPayS:'Paybill 522533 · Acct INV-042',hiLang:'EN · Kiswahili',
+        fTax:'VAT — <span class="accent">16% · eTIMS</span>',fCur:'KSh <span class="accent">KES</span>',fPay:'M-Pesa · <span class="accent">Flutterwave</span>',fArt:'<span class="accent">KRA PIN</span> · eTIMS-ready',fLang:'English + <span class="accent">Kiswahili</span>',fFy:'Jan <span class="accent">–</span> Dec',
+        sTitle:'VAT Invoice',sSub:'Kenya · KES',sChip:'KRA PIN',sBase:'KSh 10,000',sTaxL:'VAT @ 16%',sTaxV:'KSh 1,600',sTotal:'KSh 11,600',sQR:'📱',sPayT:'Pay via M-Pesa',sPayS:'Paybill · Till'},
+    us:{acc:'#3D7BFF',fl:'🇺🇸',hiSub:'USA · USD · Sales tax · 1099',hiChip:'1099-NEC',hiTotal:'$10,725.00',hiPayT:'Pay with card or ACH',hiPayS:'Stripe · Apple Pay · bank transfer',hiLang:'English',
+        fTax:'Sales tax + <span class="accent">SE 15.3%</span>',fCur:'$ <span class="accent">USD</span>',fPay:'Stripe · <span class="accent">ACH</span>',fArt:'<span class="accent">1099-NEC</span> tracker',fLang:'<span class="accent">English</span>',fFy:'Jan <span class="accent">–</span> Dec',
+        sTitle:'US Invoice',sSub:'USA · USD',sChip:'1099',sBase:'$10,000',sTaxL:'Sales tax · CA 7.25%',sTaxV:'$725',sTotal:'$10,725',sQR:'💳',sPayT:'Pay with Stripe',sPayS:'card · ACH'},
+  };
+  const set=(id,html)=>{const e=document.getElementById(id);if(e)e.innerHTML=html;};
+  function applyMarket(k){
+    const d=M[k]; document.documentElement.style.setProperty('--accent',d.acc);
+    ['hiSub','hiChip','hiTotal','hiPayT','hiPayS','hiLang','fTax','fCur','fPay','fArt','fLang','fFy','sTitle','sSub','sChip','sBase','sTaxL','sTaxV','sTotal','sQR','sPayT','sPayS'].forEach(id=>set(id,d[id]));
+    document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.dataset.m===k));
+  }
+  document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>applyMarket(t.dataset.m)));
+
+  // ---- hero headline word flip ----
+  const words=['tax language','payment rails','local language','fiscal calendar'];let wi=0;
+  setInterval(()=>{wi=(wi+1)%words.length;const el=document.getElementById('flipWord');if(el){el.style.opacity=0;setTimeout(()=>{el.textContent=words[wi];el.style.opacity=1;},260);}},2600);
+  document.getElementById('flipWord').style.transition='opacity .26s ease';
+
+  // ---- scroll reveal ----
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.14});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+  // ---- count up ----
+  const cio=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){const el=e.target,to=+el.dataset.count;let n=0;const step=Math.max(1,Math.round(to/45));const t=setInterval(()=>{n+=step;if(n>=to){n=to;clearInterval(t);}el.textContent=n;},22);cio.unobserve(el);}}),{threshold:.6});
+  document.querySelectorAll('[data-count]').forEach(el=>cio.observe(el));
+
+  // ---- waitlist ----
+  // Paste your form endpoint below (Formspree / Getform / Tally). Until you do,
+  // the form works in "demo mode" (shows success without sending anywhere).
+  const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'; // ← replace YOUR_FORM_ID
+  async function joinWaitlist(e){
+    e.preventDefault();
+    const input=document.getElementById('wlEmail'), ok=document.getElementById('wlOk');
+    const email=input.value.trim(); if(!email) return false;
+    ok.textContent='Submitting…';
+    try{
+      if(!FORM_ENDPOINT.includes('YOUR_FORM_ID')){
+        const res=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify({email:email,source:'smb-os-landing'})});
+        if(!res.ok) throw new Error('bad status');
+      }
+      ok.textContent='✓ You’re on the list — '+email+'. We’ll reach out as your market opens.';
+      input.value='';
+    }catch(err){ ok.textContent='Hmm, that didn’t send. Email us at hello@smbos.app and we’ll add you.'; }
+    return false;
+  }
+</script>
+</body>
+</html>
