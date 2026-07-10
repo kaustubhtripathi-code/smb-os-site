@@ -487,8 +487,9 @@
 
   // ---- waitlist ----
   // Paste your form endpoint below (Formspree / Getform / Tally). Until you do,
-  // the form works in "demo mode" (shows success without sending anywhere).
+  // the form captures via a prefilled email to WAITLIST_EMAIL (no backend needed).
   const FORM_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID'; // ← replace YOUR_FORM_ID
+  const WAITLIST_EMAIL = 'kaustubh.trt+smbos@gmail.com';
   async function joinWaitlist(e){
     e.preventDefault();
     const input=document.getElementById('wlEmail'), ok=document.getElementById('wlOk');
@@ -498,10 +499,16 @@
       if(!FORM_ENDPOINT.includes('YOUR_FORM_ID')){
         const res=await fetch(FORM_ENDPOINT,{method:'POST',headers:{'Accept':'application/json','Content-Type':'application/json'},body:JSON.stringify({email:email,source:'smb-os-landing'})});
         if(!res.ok) throw new Error('bad status');
+        ok.textContent='✓ You’re on the list — '+email+'. We’ll reach out as your market opens.';
+      }else{
+        // interim capture: open a one-tap prefilled email
+        window.location.href='mailto:'+WAITLIST_EMAIL
+          +'?subject='+encodeURIComponent('SMB OS early access')
+          +'&body='+encodeURIComponent('Add me to the waitlist: '+email);
+        ok.textContent='✓ Almost done — your email app opened with a one-tap message. Hit send and you’re on the list.';
       }
-      ok.textContent='✓ You’re on the list — '+email+'. We’ll reach out as your market opens.';
       input.value='';
-    }catch(err){ ok.textContent='Hmm, that didn’t send. Email us at hello@smbos.app and we’ll add you.'; }
+    }catch(err){ ok.textContent='Hmm, that didn’t send. Email '+WAITLIST_EMAIL+' and we’ll add you.'; }
     return false;
   }
 </script>
