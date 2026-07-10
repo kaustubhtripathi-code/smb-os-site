@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>SMB OS vs Zoho Invoice (2026): multi-market invoicing compared</title>
+<meta name="description" content="Zoho Invoice is a strong single-market tool — free, polished, deep in India. SMB OS is built for billing across markets: GST + VAT + 1099 natively, UPI/M-Pesa on the invoice, offline-first. An honest comparison."/>
+<link rel="canonical" href="https://kaustubhtripathi-code.github.io/smb-os-site/compare/vs-zoho-invoice.html"/>
+<meta property="og:title" content="SMB OS vs Zoho Invoice (2026): multi-market invoicing compared"/>
+<meta property="og:description" content="Zoho Invoice is a strong single-market tool — free, polished, deep in India. SMB OS is built for billing across markets: GST + VAT + 1099 natively, UPI/M-Pesa on the invoice, offline-first. An honest comparison."/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://kaustubhtripathi-code.github.io/smb-os-site/compare/vs-zoho-invoice.html"/>
+<meta property="og:image" content="https://kaustubhtripathi-code.github.io/smb-os-site/assets/og-image.png"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://kaustubhtripathi-code.github.io/smb-os-site/assets/og-image.png"/>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236C5CE7' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><rect x='2' y='7' width='20' height='14' rx='2'/><path d='M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2'/><path d='M2 12h20'/></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="../market.css"/>
+<style>:root{--accent:#6C5CE7}</style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Is Zoho Invoice free and SMB OS paid?","acceptedAnswer":{"@type":"Answer","text":"Zoho Invoice has a generous free plan. SMB OS is free for 10 invoices a month in one market; Pro (₹299 / $9 / KSh 500 per month) adds unlimited invoices, all markets, e-Invoice IRN and cross-device sync. If you bill in one market only, Zoho's free plan may genuinely be enough — our case is cross-border."}},{"@type":"Question","name":"Does Zoho handle GST too?","acceptedAnswer":{"@type":"Answer","text":"Yes — Zoho's India edition has good GST support. The difference is what happens the day you also bill a US client or a Kenyan one: with SMB OS the 1099 tracking, VAT rules, M-Pesa rails and local formats are already native in the same account."}},{"@type":"Question","name":"Can I migrate from Zoho Invoice?","acceptedAnswer":{"@type":"Answer","text":"SMB OS imports nothing automatically yet — but invoices are quick to recreate, and CSV export (QuickBooks/Xero format) means your accounting stays portable either way."}}]}</script>
+</head>
+<body>
+<nav><div class="wrap nav">
+  <a class="brand" href="../index.html"><span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg></span> SMB OS</a>
+  <a href="../index.html#get" class="btn btn-a">Get early access</a>
+</div></nav>
+
+<header class="hero"><div class="wrap">
+  <span class="eyebrow"><span class="dot"></span> Honest comparison · 2026</span>
+  <h1 class="h1">SMB OS vs <span style="color:#E42527">Zoho Invoice</span></h1>
+  <p class="lede">Zoho Invoice is a strong single-market tool — free, polished, deep in India. SMB OS is built for billing across markets: GST + VAT + 1099 natively, UPI/M-Pesa on the invoice, offline-first.</p>
+</div></header>
+
+<section style="padding-top:20px"><div class="wrap">
+  <div class="prose"><p><strong>Zoho Invoice is genuinely good software</strong> — polished, free, and with solid GST support for India through the Zoho ecosystem. If your business lives in one country and you want the full Zoho suite behind it, it's a fine choice.</p><p>The difference is architectural: Zoho configures <strong>one home market at a time</strong>, with other geographies handled as settings. SMB OS is built market-first — India, Kenya, Nigeria, South Africa and the US each get native tax logic, local payment rails and local formats, and <strong>one account moves across all of them</strong>.</p></div>
+
+  <div class="cmp-scroll">
+    <table class="cmp">
+      <thead><tr><th></th><th class="smbcol">SMB OS</th><th>Zoho Invoice</th></tr></thead>
+      <tbody>
+        <tr><td>Markets with native tax compliance</td><td class="smbcol ">5 native (IN · KE · NG · ZA · US)</td><td class="">One home market at a time (org-level)</td></tr>
+        <tr><td>India: GST split + validated GSTIN + e-Invoice IRN</td><td class="smbcol y">✓ incl. checksum-validated GSTIN</td><td class="y">✓ GST support via Zoho's India edition</td></tr>
+        <tr><td>Kenya / Nigeria / South Africa (VAT, KRA PIN, TIN, M-Pesa, Flutterwave, PayFast)</td><td class="smbcol y">✓ all three, with local payment rails</td><td class="n">— not core; no M-Pesa/PayFast rails</td></tr>
+        <tr><td>US: 1099-NEC contractor tracking + SE-tax estimate</td><td class="smbcol y">✓ auto-flagged at the $600 threshold</td><td class="p">~ via Zoho Books (US) rather than Invoice</td></tr>
+        <tr><td>Payment on the invoice (UPI QR / M-Pesa / pay links)</td><td class="smbcol y">✓ scannable QR + one-click pay links</td><td class="p">~ via payment-gateway setup</td></tr>
+        <tr><td>Indian languages (हिंदी, मराठी, ગુજરાતી, தமிழ், ਪੰਜਾਬੀ)</td><td class="smbcol y">✓ six languages</td><td class="p">~ limited multilingual templates</td></tr>
+        <tr><td>Offline-first with cross-device sync</td><td class="smbcol y">✓ offline-first, syncs when back online</td><td class="n">— cloud-first</td></tr>
+        <tr><td>One account that travels across markets</td><td class="smbcol y">✓ switch markets in one click</td><td class="n">— one org = one market configuration</td></tr>
+        <tr><td>Free tier</td><td class="smbcol ">10 invoices/mo · Pro ₹299 / $9 / KSh 500</td><td class="">Free (with Zoho branding on some plans)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="cmp-note">Competitor details reflect publicly documented capabilities as of mid-2026 and may change — check their site for current plans. "~" = possible with setup, add-ons or workarounds.</p>
+</div></section>
+
+<section><div class="wrap">
+  <div class="kicker">Fair is fair</div>
+  <h2 class="h2">When Zoho Invoice is the right choice</h2>
+  <div class="prose"><ul class="choose"><li>You bill in exactly one country and expect that to stay true.</li><li>You already run Zoho Books/CRM and want everything in one ecosystem.</li><li>You need full accounting (ledgers, banking) attached to invoicing today.</li></ul>
+  <p>If that's you — genuinely, use Zoho Invoice. The moment your billing crosses a border, that's where SMB OS starts.</p></div>
+</div></section>
+
+<section id="faq"><div class="wrap">
+  <div class="kicker">FAQ</div>
+  <h2 class="h2">The questions people actually ask.</h2>
+  <div class="faq">
+    <details><summary>Is Zoho Invoice free and SMB OS paid?</summary><p>Zoho Invoice has a generous free plan. SMB OS is free for 10 invoices a month in one market; Pro (₹299 / $9 / KSh 500 per month) adds unlimited invoices, all markets, e-Invoice IRN and cross-device sync. If you bill in one market only, Zoho's free plan may genuinely be enough — our case is cross-border.</p></details><details><summary>Does Zoho handle GST too?</summary><p>Yes — Zoho's India edition has good GST support. The difference is what happens the day you also bill a US client or a Kenyan one: with SMB OS the 1099 tracking, VAT rules, M-Pesa rails and local formats are already native in the same account.</p></details><details><summary>Can I migrate from Zoho Invoice?</summary><p>SMB OS imports nothing automatically yet — but invoices are quick to recreate, and CSV export (QuickBooks/Xero format) means your accounting stays portable either way.</p></details>
+  </div>
+</div></section>
+
+<section><div class="wrap"><div class="cta">
+  <h2>Bill your first cross-border client properly.</h2>
+  <p>Free — 10 invoices a month, no card. GST · VAT · 1099, with payment on the invoice.</p>
+  <a href="../index.html#get" class="btn btn-a">Get early access →</a>
+</div></div></section>
+
+<footer><div class="wrap foot">
+  <a class="brand" href="../index.html" style="font-size:16px"><span class="mark" style="width:24px;height:24px"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg></span> SMB OS</a>
+  <div class="otherm">More: <a href="./vs-wave.html">vs Wave</a><a href="./vs-refrens.html">vs Refrens</a> <a href="../markets/index.html">Invoice generators by market</a></div>
+  <div>© 2026 SMB OS · Invoicing that speaks your market's tax language.</div>
+</div></footer>
+</body>
+</html>
