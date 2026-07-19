@@ -24,11 +24,18 @@ schema — they duplicate; edit both):
 - `markets/india.html` + `compare/vs-refrens.html`: "one avoided GST filing error (₹50,000
   average) pays for 14 years of it" → "priced far below the ~₹50,000 a single GST filing
   error can cost" (states the stake without promising prevention).
-**DELIBERATELY NOT DONE (owner's positioning call):** the full "compliant/compliance" →
-"calculation support" reframe — ~70 instances across 11 pages; it IS the site's core
-positioning ("GST-compliant invoices", "natively compliant"), so a blanket edit is a
-repositioning decision, not a copy fix. If the owner OKs it, do it site-wide in one pass
-(visible + JSON-LD + meta descriptions) and re-check `sitemap.xml` untouched.
-Pushed to main (owner-approved 2026-07-19) — the copy above is the live site now.
+**FULL REFRAME DONE same day (`538f58e`, owner said "build whatever is left"; PUSHED = LIVE):**
+site-wide pass over all 11 pages (visible copy + JSON-LD + titles/meta/OG). Rule applied —
+**product-delivers-compliance claims** rewritten to what's true (fields/format/calculations:
+"natively compliant"→"built for the tax rules", "actually compliant"→"GST's actual rules
+built in", "X-compliant invoices"→"X-required format", "Compliant, not scary"→"Tax math,
+not scary" + dropped "No penalties", CTAs "compliant invoice"→"tax-ready invoice",
+homepage nav/kickers "Compliance"→"The output"/"Real tax artifacts", compare tables
+"native tax compliance"→"native tax-rule support", Refrens "focused invoicing tool:
+compliance,…"→"…: the right tax fields and calculations,…"); **kept** legal-education
+copy (what the law requires an invoice to contain), "Compliance FAQ" topic labels,
+competitor facts and market stats. Verified: zero remaining product-compliance claims
+(grep audit), no mojibake (use .NET UTF8 read/write or the Edit tool — PS5.1
+Get/Set-Content re-encodes em-dashes), deploy verified live on Pages.
 
 Last audit: 2026-07-19 (state = pushed through 2026-07-19).
