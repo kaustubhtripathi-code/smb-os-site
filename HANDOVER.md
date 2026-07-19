@@ -16,4 +16,19 @@ SEO/marketing site for **SMB OS** (the smb-variants invoicing module inside
 - User steps: none pending for the site; payments go-live is blocked on provider creds in
   the product (.env — Stripe/Flutterwave/M-Pesa/PayFast/GSP).
 
-Last audit: 2026-07-12 (state = last commit `cdeca51`, 2026-07-10).
+## 2026-07-19 — liability-copy fix (committed LOCAL `10acddf`, ⚠ NOT PUSHED = not live yet)
+Killed the penalty-prevention overclaim on two pages (both visible copy AND the JSON-LD FAQ
+schema — they duplicate; edit both):
+- `markets/india.html`: "SMB OS does the compliance for you" → "handles the tax calculations
+  for you".
+- `markets/india.html` + `compare/vs-refrens.html`: "one avoided GST filing error (₹50,000
+  average) pays for 14 years of it" → "priced far below the ~₹50,000 a single GST filing
+  error can cost" (states the stake without promising prevention).
+**DELIBERATELY NOT DONE (owner's positioning call):** the full "compliant/compliance" →
+"calculation support" reframe — ~70 instances across 11 pages; it IS the site's core
+positioning ("GST-compliant invoices", "natively compliant"), so a blanket edit is a
+repositioning decision, not a copy fix. If the owner OKs it, do it site-wide in one pass
+(visible + JSON-LD + meta descriptions) and re-check `sitemap.xml` untouched.
+Pushing deploys these publicly — not yet requested.
+
+Last audit: 2026-07-19 (state = commit `10acddf`, local; remote still at `cdeca51`, 2026-07-10).
