@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Sora:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
 <style>
-  :root{
+  :root{color-scheme:dark;
     --ink:#0B0B12; --ink-2:#12121C; --ink-3:#191926;
     --paper:#F4EFE6; --paper-2:#E9E1D2;
     --fg:#ECE9E1; --fg-dim:#A6A2B0; --fg-faint:#6E6B7A;
@@ -72,7 +72,34 @@
   .btn-p:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(236,233,225,.16)}
   .btn-g{border-color:var(--line-2);color:var(--fg)}
   .btn-g:hover{background:rgba(236,233,225,.06);border-color:var(--fg-faint)}
-  @media(max-width:760px){.navlinks{display:none}}
+  /* mobile nav — native <details>, no JS */
+  .menu{position:relative;display:flex}
+  .menu>summary{display:none;list-style:none}
+  .menu>summary::-webkit-details-marker{display:none}
+  @media(min-width:761px){.menu::details-content{content-visibility:visible;block-size:auto}}
+  @media(max-width:760px){
+    /* hamburger goes last so the drop-down anchors to the right edge, not mid-bar */
+    .menu{order:3}
+    .menu>summary{
+      display:grid;place-items:center;width:44px;height:44px;cursor:pointer;
+      border:1px solid var(--line-2);border-radius:12px;color:var(--fg);
+    }
+    .menu>summary::after{
+      content:"";width:18px;height:2px;background:currentColor;border-radius:2px;
+      box-shadow:0 -6px 0 currentColor,0 6px 0 currentColor;
+    }
+    .menu[open]>summary{border-color:var(--accent)}
+    .menu:not([open]) .navlinks{display:none}
+    .navlinks{
+      position:absolute;right:0;top:calc(100% + 14px);z-index:80;
+      flex-direction:column;align-items:stretch;gap:2px;
+      min-width:min(74vw,250px);padding:10px;
+      background:var(--ink-3);border:1px solid var(--line);border-radius:16px;
+      box-shadow:0 26px 60px rgba(0,0,0,.55);
+    }
+    .navlinks a{padding:13px 14px;border-radius:10px;font-size:15px}
+    .navlinks a:hover{background:rgba(236,233,225,.06)}
+  }
 
   /* ---- hero ---- */
   .hero{padding:88px 0 40px;position:relative}
@@ -228,13 +255,16 @@
     <span class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M2 12h20"/></svg></span>
     SMB OS
   </div>
-  <div class="navlinks">
-    <a href="#markets">Markets</a>
-    <a href="#features">Features</a>
-    <a href="#proof">The output</a>
-    <a href="#pricing">Pricing</a>
-    <a href="compare/index.html">Compare</a>
-  </div>
+  <details class="menu">
+    <summary aria-label="Open menu"></summary>
+    <div class="navlinks" onclick="this.parentElement.open=false">
+      <a href="#markets">Markets</a>
+      <a href="#features">Features</a>
+      <a href="#proof">The output</a>
+      <a href="#pricing">Pricing</a>
+      <a href="compare/index.html">Compare</a>
+    </div>
+  </details>
   <a href="#get" class="btn btn-p">Get early access</a>
 </div></nav>
 

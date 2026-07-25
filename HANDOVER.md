@@ -39,3 +39,12 @@ competitor facts and market stats. Verified: zero remaining product-compliance c
 Get/Set-Content re-encodes em-dashes), deploy verified live on Pages.
 
 Last audit: 2026-07-19 (state = pushed through 2026-07-19).
+
+## 2026-07-25 responsive pass
+Mobile nav no longer deleted at <=760px — the five nav links collapse into a `<details>`
+hamburger (zero JS; `order:3` puts it at the right edge so the drop-down can't escape the
+viewport). Added `color-scheme:dark`. Verified: 0 horizontal overflow and 50px tap targets
+at 375px; nav renders as a normal horizontal row at 820 / 1280.
+The `compare/` tables are wider than a phone by design and scroll inside their own
+`overflow-x:auto` container — the page itself does not scroll sideways. That is correct;
+do not "fix" it by shrinking the table.
