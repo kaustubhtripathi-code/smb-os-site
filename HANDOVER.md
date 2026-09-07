@@ -48,3 +48,28 @@ at 375px; nav renders as a normal horizontal row at 820 / 1280.
 The `compare/` tables are wider than a phone by design and scroll inside their own
 `overflow-x:auto` container — the page itself does not scroll sideways. That is correct;
 do not "fix" it by shrinking the table.
+
+
+## 2026-09-07 — Local HTML repair (not deployed)
+Astra portfolio review restored the complete sibling favicon tag in compare/index.html:16 and markets/index.html:16. Previously the unclosed href absorbed the following canonical tag. Two HTML line replacements, uncommitted. Regression failed before and passed after for all 11 site pages; byte identity with compare/vs-wave.html verified. Runnable check: C:/Users/91851/Documents/Codex/GPT 6 Astra/audits/2026-09-07-project-review/repair_smb.py. No push or browser rendering validation.
+
+
+## 2026-09-07 — Tested release and targeted recovery
+
+This supersedes the earlier local-only status for the HTML repair. Code commit: `1ab2597`; pre-change main: `f92d583`. Changed pages: compare/index.html, markets/index.html. Fixes malformed favicon attributes which consumed following HTML. No application backend or data changed.
+
+Verification: stdlib HTML regression check; browser inspection of all five repaired pages across the two sites confirmed stylesheets and expected headings. SMB canonical links parse independently; Everfold product CSS applies. AI OS screenshot visually checked. Run `python scripts/check_html.py` from this repository. This is a targeted markup check, not a full accessibility or product audit.
+
+Deployment: existing GitHub Pages source is `main`, repository root. Push triggers the existing deployment. Consult the subsequent release receipt for actual remote/build/live verification; a commit alone does not prove deployment.
+
+### Rollback by symptom
+
+| Symptom | Action | Scope and caution |
+| --- | --- | --- |
+| New regression isolated to these repaired pages | From a clean, up-to-date main, `git revert 1ab2597`, rerun the check, then `git push origin main` to publish the reversal. | Reverts only the HTML repair; documentation/checks and unrelated commits remain. **The old markup is known broken**, so the regression check should reject that reversal. Prefer a small corrective fix; do not publish the known-broken reversal simply because it exists. |
+| Only one page regressed | Inspect `git show 1ab2597 -- path/to/affected/page`; apply only that hunk in reverse to that page, inspect `git diff`, test and commit it. | Do not restore the entire repository or another product. Reversing the favicon repair reinstates the original defect; a corrected favicon or removal of only its link is safer. |
+| Pages deployment fails or old page remains visible | Check GitHub Pages latest build SHA/status and compare remote main. Retry the existing build after diagnosing failure. | No reason to roll back code when the new build never went live. Avoid force-pushing. |
+| Regression only in the new check/documentation | Revert the documentation/check commit found with `git log -- scripts/check_html.py HANDOVER.md`. | Keep `1ab2597`; this leaves the working website repair intact. |
+| App login, saved data, API, video or unrelated product breaks | Investigate that application's own deployment and handover. | These static favicon repairs changed no app code, media or database. No data restore is appropriate. |
+
+Before any reversal, preserve uncommitted work and inspect later changes. After a forward fix or rollback, rerun the local check, check the affected page in a browser, push without force, and confirm the Pages build SHA and live page. Never restore a database for this change.
